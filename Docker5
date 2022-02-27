@@ -1,0 +1,87 @@
+# Developer Ivan Glazkov
+# https://www.youtube.com/watch?v=ZW9bB_lotKc
+# The text version has prepared @V_Kopernik (nik github Shindos-Kopernik)
+
+# Volume
+docker volume ls
+
+docker volume create pg_data
+
+docker volume ls
+
+docker volume inspect pg_data
+
+cd /var/lib/docker/volumes/pg_data/_data
+
+ls -l
+# Folders
+
+docker run -d -v pg_data:/var/lib/postgresql/data -e POSTGRES_PASSWORD=mysecretpassword postgres
+docker ps
+
+docker exec -t -i "NAMES" /bin/bash
+
+cd /var/lib/postgresql/data/
+
+ls -l
+
+exit
+
+# to compare two folders localhost and folders docker pg_data. folders localhost=folder docker pg_data
+    docker volume inspect pg_data
+    cd /var/lib/docker/volumes/pg_data/_data
+     ls -l
+exit
+
+docker rm --force "NAMES"
+docker ps
+docker run -d -v pg_data:/var/lib/postgresql/data -e POSTGRES_PASSWORD=mysecretpassword postgres
+docker rm --force "NAMES"
+
+# File
+
+mkdir pg_data
+docker run -d -v /root/docker5/pg_data:/var/lib/postgresql/data -e POSTGRES_PASSWORD=mysecretpassword postgres
+docker rm --force "NAMES"
+
+docker run -d -p 0.0.0.0:80:80 nginx
+docker exec -t -i "NAMES" /bin/bash
+cd /etc/nginx/conf.d/
+ls -l
+cat default.conf
+exit
+docker rm --force "NAMES"
+docker run -d -v /root/docker5/nginx.conf:/etc/nginx/conf.d/default.conf -p 0.0.0.0:80:80 nginx
+docker exec -t -i "NAMES" /bin/bash
+apt install
+apt install vim
+cd /etc/nginx/conf.d/
+vim default.conf
+kill -9 nginx
+kill -s HUP $(cat /var/run/nginx.pid)
+exit
+docker rm --force "NAMES"
+docker run -d -v /root/docker5/nginx.conf:/etc/nginx/conf.d/default.conf:ro -p 0.0.0.0:80:80 nginx
+docker exec -t -i "NAMES" /bin/bash/nginx/conf.d/
+cd /etc/nginx/conf.d/
+ls -l
+
+# Mount
+
+docker volume create pg_data_nfs -d local -o type=nfs -o o=addr=192.168.3.100 -o device=:mnt/data/nfs
+docker volume inspect pg_data_nfs
+docker run -d -v pg_data_nfs:/var/lib/postgresql/data -e POSTGRES_PASSWORD=mysecretpassword
+docker volume inspect pg_data_nfs
+cd /var/lib/docker/volumes/pg_data_nfs/_data
+ls -l
+mount | greep nfs
+cd docker5
+mkdir data
+docker volume create data -o device=/root/docker5/data -o type=none -o o=bind
+docker volume ls
+docker volume inspect data
+docker run -d -v data:/var/lib/postgresql/data -e POSTGRES_PASSWORD=mysecretpassword postgres
+cd /var/lib/docker/volumes/data/_data
+ls -l
+
+
